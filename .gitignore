@@ -2,6 +2,7 @@ build
 *.swp
 *tags
 *~
+/.vscode/
 
 # OS X
 ####################

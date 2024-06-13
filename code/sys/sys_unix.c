@@ -38,6 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <fcntl.h>
 #include <fenv.h>
 #include <sys/wait.h>
+#include <time.h>
 
 qboolean stdinIsATTY;
 
@@ -346,6 +347,10 @@ void Sys_ListFilteredFiles( const char *basedir, char *subdirs, char *filter, ch
 		return;
 	}
 
+	if ( basedir[0] == '\0' ) {
+		return;
+	}
+
 	if (strlen(subdirs)) {
 		Com_sprintf( search, sizeof(search), "%s/%s", basedir, subdirs );
 	}
@@ -423,6 +428,11 @@ char **Sys_ListFiles( const char *directory, const char *extension, char *filter
 		listCopy[i] = NULL;
 
 		return listCopy;
+	}
+
+	if ( directory[0] == '\0' ) {
+		*numfiles = 0;
+		return NULL;
 	}
 
 	if ( !extension)
@@ -539,11 +549,15 @@ void Sys_Sleep( int msec )
 	}
 	else
 	{
+		struct timespec req;
+
 		// With nothing to select() on, we can't wait indefinitely
 		if( msec < 0 )
 			msec = 10;
 
-		usleep( msec * 1000 );
+		req.tv_sec = msec/1000;
+		req.tv_nsec = (msec%1000)*1000000;
+		nanosleep(&req, NULL);
 	}
 }
 
