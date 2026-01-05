@@ -27,7 +27,8 @@ jobs:
     - name: Compile
       run: |
         choco install zip
-        make release -j $env:NUMBER_OF_PROCESSORS
+        # HACK: This sets USE_CURL_DLOPEN=1 because Curl fails to link otherwise.
+        make release -j $env:NUMBER_OF_PROCESSORS USE_CURL_DLOPEN=1
       env:
         ARCHIVE: 1
     - uses: actions/upload-artifact@v4
@@ -36,7 +37,7 @@ jobs:
         path: build/*.zip
   macos:
     name: macOS
-    runs-on: macos-13
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v4
     - name: Compile
