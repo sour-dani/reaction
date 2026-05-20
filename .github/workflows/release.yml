@@ -1,5 +1,23 @@
-name: Build
-on: [push, pull_request]
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      reaction_commit:
+        description: 'Abbreviated commit hash for reaction'
+        required: true
+        type: string
+      ioq3_commit:
+        description: 'Abbreviated commit hash for ioquake3'
+        required: true
+        type: string
+      version:
+        description: 'Version number for Reaction'
+        required: true
+        type: string
+        default: 'Beta 1.0'
+
+permissions:
+  contents: write
 
 jobs:
   linux:
@@ -19,7 +37,18 @@ jobs:
       with:
         name: Linux
         path: build/*.zip
+        if-no-files-found: error
         retention-days: 1
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      with:
+        draft: true
+        name: Reaction ${{ inputs.reaction_commit }}
+        tag_name: ${{ inputs.reaction_commit }}
+        body: "ioquake3 commit: ${{ inputs.ioq3_commit }}"
+        working_directory: build
+        files: |
+          *.zip
 
   windows:
     name: Windows
@@ -37,7 +66,14 @@ jobs:
       with:
         name: Windows
         path: build/*.zip
+        if-no-files-found: error
         retention-days: 1
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      with:
+        working_directory: build
+        files: |
+          *.zip
 
   macos:
     name: macOS
@@ -52,7 +88,14 @@ jobs:
       with:
         name: macOS
         path: build/*.zip
+        if-no-files-found: error
         retention-days: 1
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      with:
+        working_directory: build
+        files: |
+          *.zip   
 
   web:
     runs-on: ubuntu-latest
@@ -77,5 +120,11 @@ jobs:
       with:
         name: Web
         path: build/*.zip
+        if-no-files-found: error
         retention-days: 1
-
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      with:
+        working_directory: build
+        files: |
+          *.zip
