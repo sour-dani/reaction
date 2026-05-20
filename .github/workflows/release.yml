@@ -19,6 +19,8 @@ on:
 permissions:
   contents: write
 
+run-name: Release ${{ inputs.version }} (${{ inputs.reaction_commit }})
+
 jobs:
   linux:
     name: Linux
