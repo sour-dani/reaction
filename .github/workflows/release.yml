@@ -22,6 +22,18 @@ permissions:
 run-name: Release ${{ inputs.version }} (${{ inputs.reaction_commit }})
 
 jobs:
+  setup-release:
+    name: Set up release
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Create Release
+      uses: softprops/action-gh-release@v3
+      with:
+        draft: true
+        name: Reaction ${{ inputs.version }} (${{ inputs.reaction_commit }})
+        tag_name: ${{ inputs.reaction_commit }}
+        body: "ioquake3 commit: ${{ inputs.ioq3_commit }}"
+
   linux:
     name: Linux
     runs-on: ubuntu-22.04
