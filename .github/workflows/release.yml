@@ -43,7 +43,7 @@ jobs:
       uses: softprops/action-gh-release@v3
       with:
         draft: true
-        name: Reaction ${{ inputs.reaction_commit }}
+        name: Reaction ${{ inputs.version }} (${{ inputs.reaction_commit }})
         tag_name: ${{ inputs.reaction_commit }}
         body: "ioquake3 commit: ${{ inputs.ioq3_commit }}"
         working_directory: build
@@ -71,6 +71,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
           *.zip
@@ -93,6 +94,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
           *.zip   
@@ -125,6 +127,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
           *.zip
