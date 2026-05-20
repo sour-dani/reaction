@@ -37,6 +37,7 @@ jobs:
   linux:
     name: Linux
     runs-on: ubuntu-22.04
+    needs: setup-release
     steps:
     - uses: actions/checkout@v6
     - name: Install Dependencies
@@ -57,9 +58,7 @@ jobs:
       uses: softprops/action-gh-release@v3
       with:
         draft: true
-        name: Reaction ${{ inputs.version }} (${{ inputs.reaction_commit }})
         tag_name: ${{ inputs.reaction_commit }}
-        body: "ioquake3 commit: ${{ inputs.ioq3_commit }}"
         working_directory: build
         files: |
           *.zip
@@ -67,6 +66,7 @@ jobs:
   windows:
     name: Windows
     runs-on: windows-2022
+    needs: setup-release
     steps:
     - uses: actions/checkout@v6
     - name: Compile
@@ -94,6 +94,7 @@ jobs:
   macos:
     name: macOS
     runs-on: macos-15
+    needs: setup-release
     steps:
     - uses: actions/checkout@v6
     - name: Compile
