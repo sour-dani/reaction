@@ -71,6 +71,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        draft: true
         tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
@@ -94,6 +95,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        draft: true
         tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
@@ -127,6 +129,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v3
       with:
+        draft: true
         tag_name: ${{ inputs.reaction_commit }}
         working_directory: build
         files: |
